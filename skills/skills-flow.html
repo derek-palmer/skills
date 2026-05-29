@@ -2,32 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Matt Pocock Skills Flow</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 1.5rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
-    h1 {
-      margin-bottom: 0.25rem;
-      font-size: 1.75rem;
-    }
-    p.description {
-      margin: 0 0 1rem 0;
-      color: #9ca3af;
-    }
-    .mermaid {
-      background: #020617;
-      border-radius: 0.75rem;
-      padding: 1rem;
-    }
-  </style>
-  <!-- Mermaid CDN, same style Matt often uses -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phase: { DEFAULT: "#0f172a", border: "#1f2937" },
+            setup: { DEFAULT: "#7c3aed", border: "#5b21b6" },
+            align: { DEFAULT: "#4f46e5", border: "#3730a3" },
+            plan: { DEFAULT: "#0369a1", border: "#075985" },
+            build: { DEFAULT: "#b45309", border: "#92400e" },
+            maintain: { DEFAULT: "#15803d", border: "#166534" },
+            util: { DEFAULT: "#374151", border: "#4b5563" },
+          },
+        },
+      },
+    };
+  </script>
   <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
     mermaid.initialize({
       startOnLoad: true,
       theme: "dark",
@@ -38,18 +34,57 @@
         lineColor: "#6b7280",
         secondaryColor: "#111827",
         tertiaryColor: "#111827",
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-      }
+        fontFamily:
+          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      },
     });
   </script>
 </head>
-<body>
-  <h1>Matt Pocock Skills Flow</h1>
-  <p class="description">
-    Standard flow: setup once per repo, then align → plan → build → maintain, with utility skills available anytime.
-  </p>
+<body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+  <main class="mx-auto max-w-6xl px-6 py-10">
+    <header class="mb-8 space-y-3">
+      <h1 class="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        Matt Pocock Skills Flow
+      </h1>
+      <p class="max-w-3xl text-sm leading-relaxed text-slate-400 sm:text-base">
+        Standard flow: setup once per repo, then align → plan → build → maintain, with utility
+        skills available anytime.
+      </p>
+      <ul
+        class="flex flex-wrap gap-2 pt-1 text-xs font-medium"
+        aria-label="Phase colors"
+      >
+        <li class="rounded-md border border-phase-border bg-phase px-2.5 py-1 text-slate-200">
+          Phase
+        </li>
+        <li class="rounded-md border border-setup-border bg-setup px-2.5 py-1 text-white">
+          Setup
+        </li>
+        <li class="rounded-md border border-align-border bg-align px-2.5 py-1 text-white">
+          Align
+        </li>
+        <li class="rounded-md border border-plan-border bg-plan px-2.5 py-1 text-white">
+          Plan
+        </li>
+        <li class="rounded-md border border-build-border bg-build px-2.5 py-1 text-white">
+          Build
+        </li>
+        <li
+          class="rounded-md border border-maintain-border bg-maintain px-2.5 py-1 text-white"
+        >
+          Maintain
+        </li>
+        <li class="rounded-md border border-util-border bg-util px-2.5 py-1 text-slate-100">
+          Utility
+        </li>
+      </ul>
+    </header>
 
-  <div class="mermaid">
+    <section
+      class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-4 shadow-inner shadow-black/20 sm:p-6"
+      aria-label="Skills flowchart"
+    >
+      <pre class="mermaid text-center">
 flowchart TD
   %% PHASE LABELS
   A0(["🚀 NEW REPO"]):::phase --> A["/setup-matt-pocock-skills<br/>Run once per repo"]:::setup
@@ -94,6 +129,13 @@ flowchart TD
   classDef maintain fill:#15803d,stroke:#166534,color:#ffffff,rx:6,ry:6;
   classDef util fill:#374151,stroke:#4b5563,color:#f3f4f6,rx:6,ry:6;
   classDef decision fill:#1f2937,stroke:#4b5563,color:#e5e7eb,rx:4,ry:4;
-  </div>
+      </pre>
+    </section>
+
+    <footer class="mt-6 text-xs text-slate-500">
+      Phase colors in the legend match Mermaid <code class="font-mono text-slate-400">classDef</code>
+      styles in the diagram.
+    </footer>
+  </main>
 </body>
 </html>

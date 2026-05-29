@@ -213,10 +213,73 @@ The agent should produce:
    ```
 
 2. **Optional HTML wrapper**  
-   - A standalone HTML file that:
-     - Loads Mermaid via CDN.
-     - Calls `mermaid.initialize({ startOnLoad: true, theme: "dark" })`.
-     - Embeds the same Mermaid `flowchart` string inside a `<div class="mermaid">`.
+   A standalone HTML file for live preview. Use **Tailwind** for page chrome and **Mermaid** for the diagram — same split as `skills/engineering/improve-codebase-architecture/HTML-REPORT.md`. Canonical example: [`skills/skills-flow.html`](../skills/skills-flow.html).
+
+   **Head**
+   - `https://cdn.tailwindcss.com` for layout, typography, and legend pills.
+   - Optional `tailwind.config` `theme.extend.colors` so legend swatches match the Mermaid `classDef` hex values (phase, setup, align, plan, build, maintain, util).
+   - Mermaid 11 ESM from jsDelivr; `mermaid.initialize({ startOnLoad: true, theme: "dark", themeVariables: { ... } })` aligned with the diagram palette (see example file).
+
+   **Body structure**
+   - `body`: dark shell, e.g. `min-h-screen bg-slate-950 text-slate-200 antialiased`.
+   - `main`: centered column, e.g. `mx-auto max-w-6xl px-6 py-10`.
+   - **Header**: title, one-line description, **legend** — flex row of phase-colored pills using the extended Tailwind colors.
+   - **Diagram section**: bordered card with horizontal scroll; embed the flowchart in `<pre class="mermaid">` (not a bare `<div>`).
+
+   **Mermaid block**
+   - Paste the same `flowchart TD` string produced for markdown, including trailing `classDef` lines.
+   - Do not duplicate phase colors in Tailwind for nodes — Mermaid `classDef` styles the graph; Tailwind only frames the page and legend.
+
+   **Minimal scaffold**
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <title>Skills flow</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+     <script>
+       tailwind.config = {
+         theme: {
+           extend: {
+             colors: {
+               phase: { DEFAULT: "#0f172a", border: "#1f2937" },
+               setup: { DEFAULT: "#7c3aed", border: "#5b21b6" },
+               align: { DEFAULT: "#4f46e5", border: "#3730a3" },
+               plan: { DEFAULT: "#0369a1", border: "#075985" },
+               build: { DEFAULT: "#b45309", border: "#92400e" },
+               maintain: { DEFAULT: "#15803d", border: "#166534" },
+               util: { DEFAULT: "#374151", border: "#4b5563" },
+             },
+           },
+         },
+       };
+     </script>
+     <script type="module">
+       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+       mermaid.initialize({ startOnLoad: true, theme: "dark" /* themeVariables optional */ });
+     </script>
+   </head>
+   <body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+     <main class="mx-auto max-w-6xl px-6 py-10">
+       <header class="mb-8 space-y-3">
+         <h1 class="text-2xl font-semibold text-white">…</h1>
+         <p class="text-slate-400">…</p>
+         <!-- legend pills: bg-setup, border-setup-border, etc. -->
+       </header>
+       <section class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-4 sm:p-6">
+         <pre class="mermaid">
+   flowchart TD
+     ...
+   classDef phase fill:#0f172a,stroke:#1f2937,...;
+         </pre>
+       </section>
+     </main>
+   </body>
+   </html>
+   ```
 
 ---
 
@@ -277,4 +340,4 @@ When you want a diagram:
   “Use `Skill Architecture Visualization Spec` to scan this repo’s skills and produce a Mermaid diagram of how they work together.”
 - Paste the generated Mermaid into:
   - `docs/skills-architecture.md`, or
-  - an HTML wrapper for live preview.
+  - a Tailwind + Mermaid HTML wrapper (see §6) such as `skills/skills-flow.html` for live preview.
