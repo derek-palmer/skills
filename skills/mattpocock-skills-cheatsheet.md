@@ -82,30 +82,36 @@ SETUP (once) → ALIGN → PLAN → BUILD → MAINTAIN
 
 ```mermaid
 flowchart TD
-  A0(["🚀 SETUP"]):::phase --> A["/setup-matt-pocock-skills"]:::setup
+  A0(["🚀 SETUP"]):::phase --> A["/setup-matt-pocock-skills<br/>Run once per repo"]:::setup
   A --> B0(["📐 ALIGN"]):::phase
-  B0 --> B["/grill-with-docs"]:::align
-  B0 --> C["/zoom-out"]:::align
-  B --> D{Design clear?}:::decision
-  D -->|Yes| E0(["📋 PLAN"]):::phase
-  D -->|No| P["/prototype"]:::align
-  P --> E0
-  E0 --> E["/to-prd"]:::plan
-  E --> F["/to-issues"]:::plan
-  F --> G["/triage"]:::plan
-  G --> H0(["🔨 BUILD"]):::phase
-  H0 --> H["/tdd"]:::build
-  H --> I{Bug?}:::decision
-  I -->|Yes| J["/diagnose"]:::build
-  J --> H
-  I -->|No| K0(["🔁 MAINTAIN"]):::phase
-  K0 --> K["/improve-codebase-architecture"]:::maintain
+
+  B0 --> B["/grill-with-docs<br/>Deep grilling, update CONTEXT.md + ADRs"]:::align
+  B0 --> C["/zoom-out<br/>Unfamiliar code? Get system context"]:::align
+  B --> D{Design still fuzzy?}:::decision
+  D -->|Yes| E["/prototype<br/>Throwaway to test design"]:::align
+  D -->|No| F0(["📋 PLAN"]):::phase
+  E --> F0
+
+  F0 --> F["/to-prd<br/>Turn conversation into PRD issue"]:::plan
+  F --> G["/to-issues<br/>Break PRD into vertical slice issues"]:::plan
+  G --> H["/triage<br/>Prioritize via triage state machine"]:::plan
+
+  H --> I0(["🔨 BUILD"]):::phase
+
+  I0 --> I["/tdd<br/>Red–Green–Refactor coding loop"]:::build
+  I --> J{Bug or breakage?}:::decision
+  J -->|Yes| K["/diagnose<br/>Reproduce → Minimize → Hypothesize → Fix → Regression"]:::build
+  K --> I
+  J -->|No| L0(["🔁 MAINTAIN"]):::phase
+
+  L0 --> L["/improve-codebase-architecture<br/>Run every few days to reduce entropy"]:::maintain
+  L --> L0
 
   U0(["⚡ UTILITY"]):::phase
-  U0 --> U1["/caveman"]:::util
-  U0 --> U2["/handoff"]:::util
-  U0 --> U3["/grill-me"]:::util
-  U0 --> U4["/write-a-skill"]:::util
+  U0 --> U1["/caveman<br/>Compressed communication, save tokens"]:::util
+  U0 --> U2["/handoff<br/>Package session for another agent"]:::util
+  U0 --> U3["/grill-me<br/>Lighter planning interview"]:::util
+  U0 --> U4["/write-a-skill<br/>Author new skills"]:::util
 
   classDef phase fill:#0f172a,stroke:#1f2937,color:#e5e7eb,font-weight:bold,rx:6,ry:6;
   classDef setup fill:#7c3aed,stroke:#5b21b6,color:#ffffff,rx:6,ry:6;
@@ -116,9 +122,3 @@ flowchart TD
   classDef util fill:#374151,stroke:#4b5563,color:#f3f4f6,rx:6,ry:6;
   classDef decision fill:#1f2937,stroke:#4b5563,color:#e5e7eb,rx:4,ry:4;
 ```
-
----
-
-To download this, copy the entire contents into a file called `mattpocock-skills-cheatsheet.md` in your repo or notes.  
-
-Do you want a version of this tuned specifically to how you work (for example, with opinions like “always start with X for backend changes, Y for frontend”)?
